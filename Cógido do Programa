@@ -1,0 +1,119 @@
+filiais = ['Filial Centro', 'Filial Shopping', 'Filial Praia']
+semanas = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']
+faturamento = [
+    [0,0,0,0],
+    [0,0,0,0],
+    [0,0,0,0]
+]
+fluxo_clientes = [
+    [0,0,0,0],
+    [0,0,0,0],
+    [0,0,0,0]
+]
+
+from time import sleep
+while True:
+    print('=' * 15,'Bem-Vindo','=' * 15)
+    print('[0] Cadastrar Dados de Desempenho.')
+    print('[1] Listar Relatório de Desempenho.')
+    print('[2] Atualizar Dados Financeiros/Fluxo.')
+    print('[3] Ranking de Faturamento por Filial.')
+    print('[4] Sair.')
+    opção = int(input('Digite a opção desejada: '))
+    
+    if opção == 0:
+        for i in range(len(filiais)):
+            for j in range(len(semanas)):
+                while True:
+                    dados_faturamento = int(input(f'Digite o valor do faturamento da {semanas[j]} na {filiais[i]}: '))
+                    if dados_faturamento >= 0:
+                        faturamento[i][j] = dados_faturamento
+                        break
+                    else:
+                        print('Erro! Não é permitida a entrada de valores negativos, tente novamente.')
+                while True:
+                        dados_fluxo_clientes = int(input(f'Informe o fluxo de clientes da {filiais[i]} na {semanas[j]}: '))
+                        if dados_fluxo_clientes >= 0:
+                            fluxo_clientes[i][j] = dados_fluxo_clientes
+                            break
+                        else:
+                            print('Erro! Não é permitida a entrada de valores negativos, tente novamente.')
+    elif opção == 1:
+        print('--- RELATÓRIO DE FATURAMENTO ---')
+        print(f'{"Filiais":<20}Semana 1\tSemana 2\tSemana 3\tSemana 4')
+        for i in range(len(filiais)):
+            print(f'{filiais[i]:<20}', end='')
+            for j in range(len(semanas)):
+                print(f'{faturamento[i][j]}', end='\t\t')
+            print()
+
+        print('--- RELATÓRIO DE FLUXO ---')
+        print(f'{"Filiais":<20}Semana 1\tSemana 2\tSemana 3\tSemana 4')
+        for i in range(len(filiais)):
+            print(f'{filiais[i]:<20}', end='')
+            for j in range(len(semanas)):
+                print(f'{fluxo_clientes[i][j]}', end='\t\t')
+            print()
+            
+    elif opção == 2:
+        while True:
+            print('=' * 15,'FILIAIS','=' * 15)
+            print('[0] Filial Centro')
+            print('[1] Filial Shopping')
+            print('[2] Filial Praia')
+            alteração_filial = int(input('De qual filial deseja alterar os dados? '))
+
+            if alteração_filial in [0, 1, 2]:
+                break
+            else:
+                print('Ops! Essa filial não existe. Tente Novamente.')
+        while True:
+            print('=' * 15,'SEMANAS','=' * 15)
+            print('[0] Semana 1')
+            print('[1] Semana 2')
+            print('[2] Semana 3')
+            print('[3] Semana 4')
+            alteração_semana = int(input('De qual semana deseja alterar os dados? '))
+
+            if alteração_semana in [0,1,2,3]:
+                break
+            else:
+                print('Ops! Opção Inválida. Tente Novamente.')
+        while True:
+            novo_valor_faturamento = int(input('Qual o novo valor do faturamento? '))
+
+            if novo_valor_faturamento >= 0:
+                faturamento[alteração_filial][alteração_semana] = novo_valor_faturamento
+                print('Alteração feita com sucesso!')
+                break
+            else:
+                print('Erro! Não é permitida a entrada de valores negativos, tente novamente.')
+        while True:
+            novo_valor_fluxo = int(input('Qual o novo valor do fluxo de clientes? '))
+
+            if novo_valor_fluxo >= 0:
+                fluxo_clientes[alteração_filial][alteração_semana] = novo_valor_fluxo
+                print('Alteração feita com sucesso!')
+                break
+            else:
+                print('Erro! Não é permitida a entrada de valores negativos, tente novamente.')
+
+    elif opção == 3:
+        total_filial_centro = sum(faturamento[0])
+        total_filial_shopping = sum(faturamento[1])
+        total_filial_praia = sum(faturamento[2])
+        totais = [total_filial_centro, total_filial_shopping, total_filial_praia]
+        ranking = sorted(zip(totais, filiais), reverse=True)
+
+        print('=' * 15, 'RELATÓRIO DE DESEMPENHO', '=' * 15)
+        for i, (total, nome) in enumerate(ranking):
+            print(f'{i + 1}º lugar - {nome}: R$ {total}')
+
+    elif opção == 4:
+        print('Finalizando...')
+        sleep(2)
+        print('Obrigado por usar nosso programa. Volte sempre!')
+        break
+    else:
+        print('Opção Inválida. Tente Novamente!') 
+    print('=' * 41)
